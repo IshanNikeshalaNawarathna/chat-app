@@ -33,7 +33,7 @@ export function SignUp() {
                     <Button title="Sign Up" />
                 </View>
                 <View style={styles.view1}>
-                    <Button title="Are you New User? Sign Up" />
+                    {/* <Button title="Are you New User? Sign Up" /> */}
                 </View>
             </View>
         </SafeAreaView>
