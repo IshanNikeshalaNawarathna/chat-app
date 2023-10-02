@@ -1,14 +1,33 @@
-import { SafeAreaView, StatusBar, StyleSheet, TextInput, View, Text, Button, Image } from "react-native";
+import { useState } from 'react';
+import { SafeAreaView, StatusBar, StyleSheet, TextInput, View, Text, Button, Image, Alert } from "react-native";
 import SelectDropdown from 'react-native-select-dropdown';
+import * as ImagePicker from 'expo-image-picker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const countries = ["Egypt", "Canada", "Australia", "Ireland"]
 
 export function SignUp() {
-
+    const [selectedImage, setSelectedImage] = useState(require('../assets/chat.png'));
     return (
         <SafeAreaView style={styles.container}>
             <StatusBar hidden={true} />
             <View style={{ backgroundColor: '#f4f4f9', width: '90%', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius: 20, }}>
+
+                <View style={styles.view2}>
+                <Image source={selectedImage} style={styles.image} />
+                    <Button title="Select your Profile Image" onPress={async () => {
+                        const result = await ImagePicker.launchImageLibraryAsync({
+                        });
+
+                        if (!result.canceled) {
+                            // Alert.alert("Message",result.assets[0].uri);
+                            setSelectedImage({uri: result.assets[0].uri,});
+                        } else {
+                            Alert.alert("Message", 'You did not select any image.');
+                        }
+                    }} />
+                </View>
+
                 <View style={styles.view}>
                     <Text style={styles.title}>First Name</Text>
                     <TextInput style={styles.TextInput} />
@@ -33,7 +52,7 @@ export function SignUp() {
                     <Button title="Sign Up" />
                 </View>
                 <View style={styles.view1}>
-                    {/* <Button title="Are you New User? Sign Up" /> */}
+                    <Button title="Are you New User? Sign Up" />
                 </View>
             </View>
         </SafeAreaView>
@@ -42,11 +61,29 @@ export function SignUp() {
 
 const styles = StyleSheet.create(
     {
+        // view3: {
+        //     width: '100%',
+        //     marginTop: 5,
+        // },
+        image: {
+            width: 96,
+            height: 96,
+            objectFit: 'contain',
+            // marginBottom: 10,
+            marginVertical:10,
+            borderRadius:96,
+        },
+        view2: {
+            width: '100%',
+            paddingHorizontal: 30,
+           justifyContent:'center',
+           alignItems:'center'
+        },
         view1: {
             width: '100%',
             paddingHorizontal: 30,
             paddingVertical: 5,
-            marginBottom:15,
+            marginBottom: 15,
         },
 
         dropdown4RowStyle: {
@@ -56,7 +93,6 @@ const styles = StyleSheet.create(
         dropdown1BtnStyle: {
             width: '100%',
             height: 50,
-            backgroundColor: '#FFF',
             borderRadius: 8,
             borderWidth: 1,
             borderColor: '#444',
@@ -72,7 +108,7 @@ const styles = StyleSheet.create(
             width: '100%',
             paddingHorizontal: 30,
             paddingVertical: 5,
-            
+
         },
         title: {
             fontSize: 20,
